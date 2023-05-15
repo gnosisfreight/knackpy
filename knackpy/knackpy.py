@@ -29,6 +29,7 @@ class Knack(object):
         timeout=10,
         tzinfo="US/Central",
         view=None,
+        base_path="https://api.knack.com",  # Add the new parameter with the default value
     ):
         """  
         Class to interact with Knack application records via the API as
@@ -86,7 +87,9 @@ class Knack(object):
             supported amount is 1000.
         page_limit : int (optional | default: 10)
             The maximum number of pages to request when retrieving data from
-             an object or view.  
+             an object or view. 
+        base_path : string (optional | default: 'https://api.knack.com')
+            The base path for the Knack API. 
         """
         self.obj = obj
         self.scene = scene
@@ -109,6 +112,7 @@ class Knack(object):
         self.endpoint = None
         self.data_raw = None
         self.data = None
+        self.base_path = base_path
 
         if not app_id:
             raise Exception("app_id is required.")
@@ -253,8 +257,8 @@ class Knack(object):
         for obj in objects:
             print("Get field data for {}".format(obj))
 
-            fields_endpoint = "https://api.knack.com/v1/objects/{}/fields?rows_per_page={}".format(
-                obj, self.rows_per_page
+            fields_endpoint = "{}/v1/objects/{}/fields?rows_per_page={}".format(
+                self.base_path, obj, self.rows_per_page
             )
 
             field_data = self._get_data(fields_endpoint, "fields")
@@ -486,15 +490,15 @@ class Knack(object):
         return self.endpoint (string)
         """
         if self.scene and self.view:
-            self.endpoint = "https://api.knack.com/v1/pages/{}/views/{}/records?rows_per_page={}".format(
-                self.scene, self.view, self.rows_per_page
+            self.endpoint = "{}/v1/pages/{}/views/{}/records?rows_per_page={}".format(
+                self.base_path, self.scene, self.view, self.rows_per_page
             )
 
             return self.endpoint
 
         if self.obj:
-            self.endpoint = "https://api.knack.com/v1/objects/{}/records?rows_per_page={}".format(
-                self.obj, self.rows_per_page
+            self.endpoint = "{}/v1/objects/{}/records?rows_per_page={}".format(
+                self.base_path, self.obj, self.rows_per_page
             )
             return self.endpoint
 
@@ -713,7 +717,7 @@ def get_app_data(app_id, timeout=10):
     if res.status_code == 200:
         return res.json()["application"]
     else:
-        raise Exception(req.text)
+        raise Exception(res.text)
 
 
 def record(
@@ -725,12 +729,13 @@ def record(
     method=None,
     timeout=10,
     max_attempts=5,
+    base_path="https://api.knack.com",  # Add the new parameter with the default value
 ):
 
     """
     Knack API request wrapper creating, updating, and deleting Knack records.
     """
-    endpoint = "https://api.knack.com/v1/objects/{}/records".format(obj_key)
+    endpoint = "{}/v1/objects/{}/records".format(base_path, obj_key)
 
     if method != "create":
         _id = data[id_key]

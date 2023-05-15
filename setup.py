@@ -5,15 +5,8 @@ with open("README.md", "r") as fh:
 
 
 setup(
-    author='John Clary',
-    author_email='john.clary@austintexas.gov',
-    classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Developers',
-        # Pick your license as you wish (should match "license" above)
-        'License :: Public Domain',
-        'Programming Language :: Python :: 3'
-    ],
+    author='John McClary',
+    author_email='jmcgue@gnosiscompanies.com',
     description='A Python API wrapper for interacting with Knack applications.',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -27,6 +20,6 @@ setup(
     packages=['knackpy'],
     test_suite='nose.collector',
     tests_require=['nose'],
-    url='http://github.com/cityofaustin/knackpy',
-    version='0.1.1',
+    url='https://github.com/gnosisfreight/knackpy',
+    version='0.2.0',
 )
