@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "knackpy"
+version = "1.0.0"
+description = "Thin fork of https://github.com/cityofaustin/knackpy (branched from version 0.1.1) with added functionality"
+authors = ["Gnosis"]
+homepage = "https://github.com/gnosisfreight/knackpy"
+license = "MIT"
+
+[tool.poetry.dependencies]
+pytz = "^2023.3"
+requests = "^2.30.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

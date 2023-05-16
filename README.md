@@ -2,13 +2,19 @@
 
 A Python client for interacting with [Knack](http://knack.com) applications.
 
-## Installation
+## Updating This Repo
+Perform normal branching on this repo. The GitHub Actions will automatically build and release your code once pushed to remote.
 
-Knackpy requires Python v3.6+.
+Steps for updating 
+1. Branch
+2. Update code
+3. Update the version number by running `make -B` to make sure everything builds, and `make [major, minor, patch]` to bump versions. You will be doing mostly `make patch` for fixes minor upgrades you want to fly under the radar. This is what the GitHub Action uses to release your code tied to a specific version. This versioning should follow [Semantic Versioning](https://semver.org/) or "SemVer"
+4. Push changes to branch. At this point, the Action will build and release your branch, and append `-test` to the end of it. 
+5. Merge changes to master. At this point, the Action will build and release your code. 
 
-```
-pip install knackpy
-```
+
+## Using
+If you have proper git credentialing setup, you can pip install (or requirements.txt) like this: `git+https://github.com/gnosisfreight/knackpy.git@v1.0.0`
 
 ## Quick Start
 

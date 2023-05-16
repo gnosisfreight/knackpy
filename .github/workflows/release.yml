@@ -1,0 +1,38 @@
+name: "Release"
+
+on:
+  push:
+    branches:
+      - "*"
+  workflow_dispatch:
+    
+jobs:
+  deploy:
+    name: "Deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: |
+          pip install poetry
+          make install
+      - name: Run tests
+        run: poetry run make test
+      - name: Extract new version
+        run: |
+          version=$(poetry version)
+          if [ "$GITHUB_REF" == "refs/heads/main" ]; then
+            echo "RELEASE_VERSION=v$(echo ${version} | cut -d ' ' -f 2)" >> $GITHUB_ENV
+          else
+            echo "RELEASE_VERSION=v$(echo ${version} | cut -d ' ' -f 2)-test" >> $GITHUB_ENV
+          fi
+      - name: Create new release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.RELEASE_VERSION }}
+          release_name: Release ${{ env.RELEASE_VERSION }}
+          draft: false
+          prerelease: false
