@@ -221,11 +221,9 @@ class Knack(object):
                         continue
                     else:
                         raise e
-
-            if req.status_code == 200:
-                data = data + req.json()[record_type]
-            else:
-                raise Exception(req.text)
+            req.raise_for_status() #  raise error if not 200
+            
+            data = data + req.json()[record_type]
 
             try:
                 total_pages = req.json()["total_pages"]

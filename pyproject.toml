@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "knackpy"
-version = "1.0.0"
+version = "1.0.1"
 description = "Thin fork of https://github.com/cityofaustin/knackpy (branched from version 0.1.1) with added functionality"
 authors = ["Gnosis"]
 homepage = "https://github.com/gnosisfreight/knackpy"
