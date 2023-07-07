@@ -221,7 +221,7 @@ class Knack(object):
                         continue
                     else:
                         raise e
-            req.raise_for_status() #  raise error if not 200
+            req.raise_for_status()  #  raise error if not 200
             
             data = data + req.json()[record_type]
 
@@ -712,10 +712,8 @@ def get_app_data(app_id, timeout=10):
     endpoint = "https://loader.knack.com/v1/applications/{}".format(app_id)
     res = requests.get(endpoint, timeout=timeout)
 
-    if res.status_code == 200:
-        return res.json()["application"]
-    else:
-        raise Exception(res.text)
+    res.raise_for_status()
+    return res.json()["application"]
 
 
 def record(
@@ -791,7 +789,5 @@ def _record_request(data, endpoint, headers, method, timeout=10, max_attempts=5)
             else:
                 raise e
 
-    if res.status_code == 200:
-        return res.json()
-    else:
-        raise Exception(res.text)
+    res.raise_for_status()
+    return res.json()
